@@ -47,7 +47,12 @@ var getProjects = function (page, type, city) {
         jQuery(res.projects).each(function (index, project) {
             var photo = '/wp-content/themes/condon-johnson/images/no-image-available.png';
             if (project.photos.length > 0) {
-                photo = '/wp-content/uploads/' + project.photos[0].photo;
+				var img_string = project.photos[0].photo;
+				if(img_string.includes('jpg')){
+					 photo = '/wp-content/uploads/' + project.photos[0].photo;
+				}
+				
+               
             }
 
 
@@ -71,7 +76,8 @@ var getProjects = function (page, type, city) {
                 markers.push(projectsMarker);
             }
 
-
+            
+				console.log(project.photos);
             jQuery('.projects-list').append('' +
                 '<a href="/projects-list/#project_' +  project.id + '">' +
                 '<div class="col-md-4 col-sm-4 col-xs-6">' +
@@ -83,6 +89,7 @@ var getProjects = function (page, type, city) {
                 '</div>' +
                 '</div>' +
                 '</a>');
+			
         });
 
         if (typeof(window.projectsMap) !== 'undefined') {
