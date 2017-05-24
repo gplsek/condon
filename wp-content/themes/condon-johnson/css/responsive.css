@@ -1,0 +1,303 @@
+@media (max-width: 526px) {
+    .deep-foundation .row img{
+        width: 100%;
+    }
+    .meet-the-team .team-item {
+        height: 255px;
+    }
+    .careers .career-item {
+        height: 320px;
+        position: relative;
+    }
+    .careers .career-item .apply-now {
+        position: absolute;
+        left: 50%;
+        bottom: 10px;
+        margin-left: -55px;
+    }
+    .careers .career-item .apply-now .button{
+        height: auto;
+    }
+    .industry-leader {
+        margin-bottom: -50px;
+    }
+    .published-articles .description{
+        text-align: left;
+    }
+    .opportunities .actions {
+        margin-bottom: 30px;
+    }
+    .deep-foundation .presentation .image-wrapper {
+        height: auto;
+    }
+    .deep-foundation .presentation .image-lines {
+        height: 380px;
+        background-size: 100%;
+        background-position: center top;
+    }
+}
+@media (min-width: 527px) and (max-width: 767px) {
+    .meet-the-team .team-item {
+        height: 360px;
+    }
+    .careers .career-item {
+        height: 270px;
+    }
+    .industry-leader {
+        margin-bottom: -50px;
+    }
+    .published-articles .description{
+        text-align: left;
+    }
+    .deep-foundation .presentation .image-lines {
+        height: 610px;
+        background-position: center top;
+    }
+}
+@media (max-width: 767px) {
+    .header {
+        text-align: left;
+    }
+    .header .logo {
+        margin-top: 10px;
+    }
+    .header .button-show-menu {
+        margin-top: 20px;
+    }
+    .header .top-menu {
+        background-color: rgba(2, 2, 2, 0.5);
+    }
+    .header .top-menu a {
+        border-bottom: 1px solid #fff;
+        padding-left: 0;
+    }
+    .header .dropdown:hover .dropdown-menu,
+    .header .dropdown > .active + .dropdown-menu {
+        display: block;
+        position: relative;
+        width: 100%;
+        left: 0;
+        background-color: transparent;
+        box-shadow: 0 0 0 #fff;
+        border-top: 0 solid #fff;
+    }
+    .header .dropdown .dropdown-menu a {
+        padding-left: 20px; 
+    }
+    .header .navbar > ul > li > a.active:focus {
+        border-bottom: 1px solid #333;
+    }
+    .header-color .top-menu {
+        background-color: rgba(241, 242, 242, 0.6);
+    }
+    .header-color .top-menu a {
+        border-bottom: 1px solid #333;
+        padding-left: 0;
+    }
+    .header .dropdown .dropdown-menu > li > a {
+        color: #fff;
+    }
+    .header .dropdown .dropdown-menu > li > a:hover {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    .header-color .dropdown .dropdown-menu > li > a:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+    .header-color .dropdown .dropdown-menu > li > a {
+        color: #333;
+    }
+    .header-color .navbar > ul > li > a.active:after, 
+    .header-color .navbar > ul > li > a:hover:after {
+        display: none;
+    }
+    .header-offset {
+        height: 50px;
+    }
+    .services .service {
+        height: 200px;
+    }
+    .services .content {
+        height: 200px;
+        padding: 90px 5px;
+    }
+    .services .service .title {
+        font-size: 11px;
+        letter-spacing: 0;
+    }
+    .recent-projects .project .content {
+        transform: translateY(0);
+        padding: 10px;
+        height: 160px;
+    }
+    .recent-projects .project .content .title {
+        font-size: 14px;
+        letter-spacing: 0;
+    }
+    .recent-projects .project .content p{
+        display: none;
+    }
+    .industry-leader .description {
+        text-align: left;
+        padding: 0 0 30px 0;
+    }
+    .meet-the-team .content {
+        display: none;
+    }
+    .footer {
+        margin: 40px 0 0 0;
+    }
+    .footer .social-links {
+        text-align: center;
+    }
+    .deep-foundation .presentation-2, 
+    .deep-foundation .presentation-3, 
+    .deep-foundation .presentation-4 {
+        margin-top: 0;
+    }
+    .opportunities .title{
+        padding-top: 50px;
+        text-align: left;
+    }
+    .careers .career-item {
+        padding: 15px;
+    }
+    .careers .career-item .button {
+         width: auto;
+    }
+    .page-template-search .title {
+        font-size: 17px;
+    }
+    #search-modal-button {
+        display: none;
+    }
+    #search-modal-form {
+        display: block;
+        position: relative;
+        top: 0;
+        width: 100%;
+        padding: 8px 0 0 0;
+        background-color: transparent;
+        border: 0 solid #fff;
+    }
+    #search-modal-form .search-button {
+        right: 0;
+    }
+    #search-modal-form .search-input {
+        color: #58595b;
+    }
+    #search-modal-form:before {
+        display: none;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .header .col-md-offset-3 {
+        margin-left: 7%;
+    }
+    .services .service {
+        height: 300px;
+    }
+    .services .content {
+        height: 300px;
+        padding: 130px 0 0;
+    }
+    .recent-projects .project .content {
+        padding: 10px 10px;
+    }
+    .meet-the-team .team-item {
+        height: 510px;
+    }
+    .careers .career-item {
+        height: 332px;
+    }
+    .deep-foundation .presentation .image-lines {
+        height: 640px;
+        background-position: center top;
+    }
+}
+@media (min-width: 768px) {
+    .deep-foundation .presentation-1 {
+        z-index: 10;
+    }
+}
+@media (max-width: 991px) {
+    h2 {
+        padding: 40px 0 10px 0;
+    }
+    hr {
+        margin: 0 0 20px 0; 
+    }
+    .slider .square {
+        padding: 10px 10px 40px 10px;
+    }
+    .slider h1 {
+        font-size: 17px;
+    }
+    .slider h5 {
+        font-size: 12px;
+    }
+    .slider .button {
+        width: 140px;
+        margin: 2px;
+    }
+    .slider .arrows {
+        bottom: 60px;
+        top: auto;
+    }
+    .slider .arrows .arrow-next {
+        right: 50%;
+        margin: 0 -65px 0 0; 
+    }
+    .slider .arrows .arrow-prev {
+        left: 50%;
+        margin: 0 0 0 -65px; 
+    }
+    .published-articles .title {
+        padding: 20px 0 0 0;
+        font-weight: bold;
+    }
+    .published-articles .text {
+        padding: 0;
+    }
+    .magazine img, 
+    .published-articles img {
+        width: 100%;
+    }
+    .map-projects .filters-container {
+       bottom: 50px;
+       margin-bottom: -50px;
+    }
+    .deep-foundation .presentation .image-wrapper {
+        width: 100%;
+    }
+    .deep-foundation .presentation .image-lines {
+        position: relative;
+        width: 100%;
+    }
+}
+@media (min-width: 991px) { 
+    .locations .description {
+        padding-left: 20px;
+    }
+    .careers .career-item {
+        height: 285px;
+    }
+    .deep-foundation .presentation-2, 
+    .deep-foundation .presentation-3, 
+    .deep-foundation .presentation-4 {
+        background-color: #fff;
+        z-index: 20;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .header .col-md-offset-3 {
+        margin-left: 20%;
+    }
+    .meet-the-team .team-item {
+        height: 485px;
+    }
+}
+@media (min-width: 1200px) {
+    .affiliated-organizations .organization {
+        padding: 10px 30px;
+    }
+}
