@@ -143,6 +143,6 @@
         the_content();
     endwhile;
     ?>
-    <script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    <script src="https: //maps.google.com/maps/api/js?sensor=true&key=AIzaSyCT_bOx9CleX3rEf1RnCg3Jl5m4Izj_ENk" type="text/javascript"></script>
 
     <?php get_footer(); ?>
