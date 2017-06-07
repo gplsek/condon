@@ -510,18 +510,25 @@ if (!class_exists('CondonJohnson')) {
 
               $filename = '';
               $filenames = [];
+			  
+			  //print_r($_FILES['photo']);die();
+			  
               if (!empty($_FILES['photo']['name'])) {
 				  
-				  
+				  //print_r($_FILES['photo']);die();
 				  
                   for($i = 0; $i < count($_FILES['photo']['name']); $i++) {
                       $fi = pathinfo($_FILES['photo']['name'][$i]);
-                      $fname = md5($fi['basename'].time()).'.'.$fi['extension'];
+                      //$fname = md5($fi['basename'].time()).'.'.$fi['extension'];
+					  $fname = $_FILES['photo']['name'];
 					  
 					  //print $fname;die();
 					  
                       $filenames[] = $fname;
                       $uploadfile = __DIR__.self::$uploaddir.$fname;
+					  
+					  //print $uploadfile;die();
+					  
                       if (move_uploaded_file($_FILES['photo']['tmp_name'][$i], $uploadfile)) { }
                   }
 
