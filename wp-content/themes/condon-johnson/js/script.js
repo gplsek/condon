@@ -304,7 +304,7 @@
 
             if (document.getElementById("map-canvas") !== null) {
                 var projectsMapOptions = {
-                    zoom: 2,
+                    zoom: 1,
                     center: projectsMapCenter,
                     scrollwheel: false,
                     mapTypeId: 'roadmap',
