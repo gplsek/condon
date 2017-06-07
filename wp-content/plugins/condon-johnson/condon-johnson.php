@@ -511,9 +511,15 @@ if (!class_exists('CondonJohnson')) {
               $filename = '';
               $filenames = [];
               if (!empty($_FILES['photo']['name'])) {
+				  
+				  
+				  
                   for($i = 0; $i < count($_FILES['photo']['name']); $i++) {
                       $fi = pathinfo($_FILES['photo']['name'][$i]);
                       $fname = md5($fi['basename'].time()).'.'.$fi['extension'];
+					  
+					  //print $fname;die();
+					  
                       $filenames[] = $fname;
                       $uploadfile = __DIR__.self::$uploaddir.$fname;
                       if (move_uploaded_file($_FILES['photo']['tmp_name'][$i], $uploadfile)) { }

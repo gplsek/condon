@@ -304,7 +304,7 @@
 
             if (document.getElementById("map-canvas") !== null) {
                 var projectsMapOptions = {
-                    zoom: 4,
+                    zoom: 6,
                     center: projectsMapCenter,
                     scrollwheel: false,
                     mapTypeId: 'roadmap',
@@ -349,7 +349,7 @@
 
             } else if (document.getElementById("contact-map-canvas") !== null) {
                 var contactMapOptions = {
-                    zoom: 4,
+                    zoom: 2,
                     center: contactMapCenter,
                     scrollwheel: false,
                     mapTypeId: 'roadmap',
