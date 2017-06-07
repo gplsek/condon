@@ -529,7 +529,7 @@ if (!class_exists('CondonJohnson')) {
 					  
 					  //print $uploadfile;die();
 					  
-                      if (move_uploaded_file($_FILES['photo']['tmp_name'][$i], $uploadfile)) { }
+                      if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) { }
                   }
 
                   /*
