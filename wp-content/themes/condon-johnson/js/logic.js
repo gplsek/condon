@@ -54,8 +54,6 @@ var addMapMarkers = function(type, city) {
 
         });
 
-        console.log(markers);
-
         if (typeof(window.projectsMap) !== 'undefined') {
             var bounds = new google.maps.LatLngBounds();
             for (var i = 0; i < markers.length; i++) {
