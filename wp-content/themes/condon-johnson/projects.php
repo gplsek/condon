@@ -120,6 +120,7 @@
 
     <script type="text/javascript">
       jQuery(document).ready(function () {
+        addMapMarkers(currentType, currentCity);
         getProjects(currentPage, currentType, currentCity);
         jQuery('.load-more-projects').on('click', function (e) {
            e.preventDefault();

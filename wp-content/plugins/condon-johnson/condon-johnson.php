@@ -870,6 +870,39 @@ if (!class_exists('CondonJohnson')) {
                 'ok' => false,
             ];
             switch ($params['ajaxAction']) {
+                case 'getAllProjects': {
+                 // self::log('try getProjects ... ');
+                  $type = intval($params['type']);
+                  $city = $params['city'];
+                  $where = '';
+                  if ($type !== -1) {
+                    if (!empty($where)) {
+                      $where .= ' and ';
+                    }
+                    $where .= " cj_projects.type = ".$type;
+                  }
+
+                  if (!empty($city)) {
+                      if (!empty($where)) {
+                        $where .= ' and ';
+                      }
+                      $where .= " cj_projects.city = '".$city."'";
+                  }
+                  if (!empty($where)) {
+                    $where = ' where '.$where;
+                  }
+                  $sql = 
+                    "select cj_projects.*, cj_photos_project.photo
+                      from cj_projects
+                      LEFT JOIN cj_photos_project on cj_projects.id=cj_photos_project.project_id and cj_photos_project.photo like '%.jpg'
+                      ".$where."
+                      group by cj_projects.id";
+                  //self::log($sql);
+                  $result['projects'] = $wpdb->get_results($sql, 'ARRAY_A');
+
+                  $result['ok'] = true;
+                  break;
+                }
                 case 'getProjects': {
                  // self::log('try getProjects ... ');
                   $pageSize = 6;
@@ -879,35 +912,32 @@ if (!class_exists('CondonJohnson')) {
 
                   $where = '';
                   if ($type !== -1) {
-                    if (!empty($where)) {
-                      $where .= ' and ';
-                    }
-                    $where .= " type = ".$type;
+                    $where .= " and cj_projects.type = ".$type;
                   }
 
                   if (!empty($city)) {
-                      if (!empty($where)) {
-                        $where .= ' and ';
-                      }
-                      $where .= " city = '".$city."'";
+                      $where .= " and cj_projects.city = '".$city."'";
                   }
 
-                  if (!empty($where)) {
-                    $where = ' where '.$where;
-                  }
                   $sql = "
-                     select * from cj_projects
-                     ".$where." order by created desc
-                     limit ".($pageSize*($page-1)).", ".$pageSize;
+                     select cj_projects.*, cj_photos_project.photo
+                       from cj_projects, cj_photos_project
+                      where 
+                            cj_photos_project.project_id=cj_projects.id
+                        and cj_photos_project.photo like '%.jpg'
+                      ".$where."
+                      group by cj_projects.id
+                      order by cj_projects.created desc
+                      limit ".($pageSize*($page-1)).", ".$pageSize;
                  // self::log($sql);
                   $projects = $wpdb->get_results($sql,
                   'ARRAY_A');
 
                   $result['pageSize'] = $pageSize;
                   $result['page'] = $page;
-                  foreach ($projects as &$project) {
+                  /*foreach ($projects as &$project) {
                     $project['photos'] = $wpdb->get_results("select * from cj_photos_project where cj_photos_project.project_id = ".$project['id'], 'ARRAY_A');
-                  }
+                  }*/
 
                   $result['projects'] = $projects;
 
