@@ -121,6 +121,8 @@ input {
 }
 .accordion-list.active .list {
     display: block;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 .arrows {
     position: absolute;
