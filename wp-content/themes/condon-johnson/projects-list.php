@@ -26,28 +26,14 @@
                        <h2 style="padding: 0;">PROJECTS</h2>
                         <hr />
                     </div>
-                <?php } 
-				
-				if (trim($project['description']) != ''){
-				?>
+                <?php } ?>
                 <div class="row" style="padding: 0;">
-                    
                     <div class="col-md-6 col-sm-6">
-                        <div class="title"><?= $project['name'] ?></div>
-                        <div class="content">
-                            <?= $project['description'] ?>
-                        </div>
-                    </div>
-					
-					
-                    <div class="col-md-6 col-sm-6">
-                        <?php if (count($photos) > 1) {
-                        ?>
-                            <div id="carousel-project-<?= $project['id'] ?>" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <?php if (count($photos) > 1) {?>
+                            <div id="carousel-project-<?= $project['id'] ?>" class="carousel slide" data-ride="carousel">
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner" role="listbox">
-                                    <?php foreach ($photos as $index => $p) {
-                                    ?>
+                                    <?php foreach ($photos as $index => $p) {?>
                                         <div class="item <?= ($index == 0)?'active':'' ?>">
                                             <img src="/wp-content/uploads/<?= $p['photo'] ?>" alt="text">
                                         </div>
@@ -68,11 +54,13 @@
                             <img src="<?= $photo ?>" title="<?= $project['name'] ?>">
                         <?php }?>
                     </div>
-					
-					
-					
+                    <div class="col-md-6 col-sm-6">
+                        <div class="title"><?= $project['name'] ?></div>
+                        <div class="content">
+                            <?= $project['description'] ?>
+                        </div>
+                    </div>
                 </div>
-				<?php }?> <!-- Make sure is a full project -->
             <?php } ?>
         </div>
     </div>

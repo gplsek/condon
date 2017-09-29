@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Condon Jonson</title>
+        <title>Condon Johnson</title>
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
         <?php wp_head(); ?>

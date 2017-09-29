@@ -44,12 +44,12 @@
 
                                         </ul>
                                     </div>
-                                    <div class="group accordion-list">
+                                    <!--<div class="group accordion-list">
                                         <div class="title">SELECT BY CITY</div>
                                         <ul class="list animate-slow cities-list">
 
                                         </ul>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,6 @@
 
     <script type="text/javascript">
       jQuery(document).ready(function () {
-        addMapMarkers(currentType, currentCity);
         getProjects(currentPage, currentType, currentCity);
         jQuery('.load-more-projects').on('click', function (e) {
            e.preventDefault();
@@ -144,6 +143,6 @@
         the_content();
     endwhile;
     ?>
-    <script src="https://maps.google.com/maps/api/js?sensor=true&key=AIzaSyCT_bOx9CleX3rEf1RnCg3Jl5m4Izj_ENk" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
 
     <?php get_footer(); ?>

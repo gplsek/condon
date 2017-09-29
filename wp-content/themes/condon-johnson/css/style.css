@@ -121,8 +121,6 @@ input {
 }
 .accordion-list.active .list {
     display: block;
-    max-height: 300px;
-    overflow-y: scroll;
 }
 .arrows {
     position: absolute;
@@ -650,9 +648,30 @@ body.projects {
 .technical-papers .description {
     padding: 0 0 20px 0;
 }
-.technical-papers .links li:before {
+/*.technical-papers .links li:before {
     content: '- ';
+}*/
+
+.technical-papers ul.links {
+    list-style: square inside url('data:image/gif;base64,R0lGODlhBQAKAIABAAAAAP///yH5BAEAAAEALAAAAAAFAAoAAAIIjI+ZwKwPUQEAOw==');
 }
+
+
+.technical-papers ul.links li {
+    /*
+     * We want the bullets outside of the list,
+     * so the text is aligned. Now the actual bullet
+     * is outside of the list’s container
+     */
+    list-style-position: outside;
+
+    /*
+     * Because the bullet is outside of the list’s
+     * container, indent the list entirely
+     */
+    margin-left: 1em;
+}
+
 .technical-papers a {
     color: #231f20;
     font-weight: bold;
@@ -979,9 +998,19 @@ body.page-template-contact {
 .footer .menu li {
     padding: 3px 0;
 }
+
+.footer .menu li  a:hover{
+     color: #e96024;
+}
+
 .footer .submenu {
     font-size: 10px;
 }
+
+.footer .submenu li a:hover{
+    color: #e96024;
+}
+
 .footer a {
     color: #fff;
     text-decoration: none;

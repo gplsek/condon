@@ -51,6 +51,11 @@
                 sliderWrapper.css({'transform': 'translateX(-'+(100*i)+'%)'});
                 i--;
             });
+
+            setInterval(function () {
+              // console.log('next');
+              $('#next-slide').click();
+            }, 3000);
         }
     });
 })(jQuery);
@@ -231,7 +236,8 @@
 ;(function($){
     $(function(){
         var screenHeight = $(window).height();
-        $('.map-projects #map-canvas').height(screenHeight);
+        $('.map-projects #map-canvas').height(screenHeight*0.8);
+        $('.map-projects .filters-wrapper').css('left', $('.map-projects .filters-wrapper').parent().parent().outerWidth() - $('.map-projects .filters-wrapper').outerWidth());
     });
 })(jQuery);
 
@@ -258,12 +264,6 @@
 
             var projectsMapCenter = new google.maps.LatLng(46.986399, -142.856798);
             var contactMapCenter = new google.maps.LatLng(40.084965, -122.202501);
-			var contactOakland = new google.maps.LatLng(37.7430368,-122.2030777);
-			var contactLA = new google.maps.LatLng(34.0663374,-117.5852478);
-			var contactPortland = new google.maps.LatLng(45.5324677,-122.571612);
-			var contactSanDiego = new google.maps.LatLng(32.8977784,-117.1198396);
-			var contactSeatle = new google.maps.LatLng(47.416101,-122.224257);
-			
 
             var stylesMap = [
                 {
@@ -304,7 +304,7 @@
 
             if (document.getElementById("map-canvas") !== null) {
                 var projectsMapOptions = {
-                    zoom: 6,
+                    zoom: 4,
                     center: projectsMapCenter,
                     scrollwheel: false,
                     mapTypeId: 'roadmap',
@@ -349,7 +349,7 @@
 
             } else if (document.getElementById("contact-map-canvas") !== null) {
                 var contactMapOptions = {
-                    zoom: 2,
+                    zoom: 4,
                     center: contactMapCenter,
                     scrollwheel: false,
                     mapTypeId: 'roadmap',
@@ -360,43 +360,9 @@
                 var contactMap = new google.maps.Map(document.getElementById("contact-map-canvas"), contactMapOptions);
 
                 var contactMarkerOne = new google.maps.Marker({
-                    position: contactOakland,
+                    position: contactMapCenter,
                     map: contactMap,
-                    icon: iconSvg,
-					title:"Oakland",
-					animation: google.maps.Animation.DROP
-                });
-				
-                var contactMarkerTwo = new google.maps.Marker({
-                    position: contactLA,
-                    map: contactMap,
-                    icon: iconSvg,
-					title:"Los Angeles",
-					animation: google.maps.Animation.DROP
-                });
-				
-                var contactMarkerThree = new google.maps.Marker({
-                    position: contactPortland,
-                    map: contactMap,
-                    icon: iconSvg,
-					title:"Portland",
-					animation: google.maps.Animation.DROP
-                });
-				
-                var contactMarkerFour = new google.maps.Marker({
-                    position: contactSanDiego,
-                    map: contactMap,
-                    icon: iconSvg,
-					title:"San Diego",
-					animation: google.maps.Animation.DROP
-                });
-				
-                var contactMarkerFive = new google.maps.Marker({
-                    position: contactSeatle,
-                    map: contactMap,
-                    icon: iconSvg,
-					title:"Seatle",
-					animation: google.maps.Animation.DROP
+                    icon: iconSvg
                 });
             }
         }

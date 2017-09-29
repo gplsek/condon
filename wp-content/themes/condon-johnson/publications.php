@@ -11,7 +11,7 @@
                 <hr />
             </div>
             <div class="row text-center">
-                <div id="carousel-publications-1" class="carousel slide" data-ride="carousel">
+                <div id="carousel-publications-1" class="carousel slide" data-ride="carousel_1">
                     <div class="items" style="display: none;">
                         <?php
                           $publications = $wpdb->get_results("select * from cj_publications where cj_publications.photo <> '' and cj_publications.type = 0", 'ARRAY_A');
@@ -41,10 +41,12 @@
             </div>
         </div>
         <!-- Controls -->
+        <?php if (count($publications) > 3) {?>
         <div class="arrows">
             <div class="arrow arrow-prev animate-slow" href="#carousel-publications-1" role="button" data-slide="prev"></div>
             <div class="arrow arrow-next animate-slow" href="#carousel-publications-1" role="button" data-slide="next"></div>
         </div>
+        <?php } ?>
     </div>
 
 <?php
@@ -66,7 +68,7 @@
             </div>
             <div class="row text-center">
 
-                <div id="carousel-publications-2" class="carousel slide" data-ride="carousel">
+                <div id="carousel-publications-2" class="carousel slide" data-ride="carousel_2">
 
                     <div class="items" style="display: none;">
                         <?php
@@ -99,10 +101,12 @@
             </div>
         </div>
         <!-- Controls -->
+        <?php if (count($publications) > 3) {?>
         <div class="arrows">
             <div class="arrow arrow-prev animate-slow" href="#carousel-publications-2" role="button" data-slide="prev"></div>
             <div class="arrow arrow-next animate-slow" href="#carousel-publications-2" role="button" data-slide="next"></div>
         </div>
+        <?php } ?>
     </div>
 
 
@@ -129,6 +133,9 @@
             }
             $(c).find('.carousel-inner').append(slide);
          }
+       });
+       $('.carousel').carousel({
+           interval: 1500
        });
    });
 </script>

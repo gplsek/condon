@@ -377,7 +377,27 @@ if (!class_exists('CondonJohnson')) {
           ";
             $result = dbDelta($sql);
 
+            $sql = "
+            CREATE TABLE cj_affiliated_organizations (
+		       id          int NOT NULL AUTO_INCREMENT,
+		       photo       varchar(255) NOT NULL,
+		       url         varchar(255),
+		       created     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		       PRIMARY KEY  (id)
+	      ) $charset_collate;
+          ";
+            $result = dbDelta($sql);
 
+            $sql = "
+            CREATE TABLE cj_social_media (
+		       id          int NOT NULL AUTO_INCREMENT,
+		       photo       varchar(255) NOT NULL,
+		       url         varchar(255),
+		       created     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		       PRIMARY KEY  (id)
+	      ) $charset_collate;
+          ";
+            $result = dbDelta($sql);
 
           // self::log($result);
         }
@@ -468,6 +488,26 @@ if (!class_exists('CondonJohnson')) {
                 array('CondonJohnson', 'publicationCreatePage')
             );
 
+            add_submenu_page('condonjohnson-projects-m', 'Affiliated organizations', 'Affiliated organizations', 'manage_options', 'condonjohnson-affiliated-organizations', ['CondonJohnson', 'affiliatedOrganizationsPage']);
+            add_submenu_page(
+                'condonjohnson-projects-m-hide',
+                'Add New affiliated organization',
+                'Add New affiliated organization',
+                'manage_options',
+                'condonjohnson-affiliated-organization-create',
+                array('CondonJohnson', 'affiliatedOrganizationCreatePage')
+            );
+
+            add_submenu_page('condonjohnson-projects-m', 'Social medias', 'Social medias', 'manage_options', 'condonjohnson-social-medias', ['CondonJohnson', 'socialMediaPage']);
+            add_submenu_page(
+                'condonjohnson-projects-m-hide',
+                'Add New social media',
+                'Add New social media',
+                'manage_options',
+                'condonjohnson-social-media-create',
+                array('CondonJohnson', 'socialMediaCreatePage')
+            );
+
         }
         public static function init_hooks() {
             add_action('admin_enqueue_scripts', ['CondonJohnson', 'loadResources']);
@@ -510,26 +550,13 @@ if (!class_exists('CondonJohnson')) {
 
               $filename = '';
               $filenames = [];
-			  
-			  //print_r($_FILES['photo']);die();
-			  
               if (!empty($_FILES['photo']['name'])) {
-				  
-				  //print_r($_FILES['photo']);die();
-				  
                   for($i = 0; $i < count($_FILES['photo']['name']); $i++) {
                       $fi = pathinfo($_FILES['photo']['name'][$i]);
-                      //$fname = md5($fi['basename'].time()).'.'.$fi['extension'];
-					  $fname = $_FILES['photo']['name'];
-					  
-					  //print $fname;die();
-					  
+                      $fname = md5($fi['basename'].time()).'.'.$fi['extension'];
                       $filenames[] = $fname;
                       $uploadfile = __DIR__.self::$uploaddir.$fname;
-					  
-					  //print $uploadfile;die();
-					  
-                      if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) { }
+                      if (move_uploaded_file($_FILES['photo']['tmp_name'][$i], $uploadfile)) { }
                   }
 
                   /*
@@ -797,7 +824,6 @@ if (!class_exists('CondonJohnson')) {
             }
             include_once __DIR__.'/pages/publications.php';
         }
-
         public static function publicationCreatePage($publication) {
             global $wpdb;
             if (!empty($_POST)) {
@@ -849,6 +875,119 @@ if (!class_exists('CondonJohnson')) {
             include_once __DIR__.'/pages/publication-create.php';
         }
 
+        // affiliated organizations
+        public static function affiliatedOrganizationsPage() {
+            if (isset($_GET['action']) && $_GET['action'] == 'edit' && !empty($_GET['id'])) {
+                $nonce = esc_attr($_GET['_wpnonce']);
+               /* if (!wp_verify_nonce($nonce, 'cj_publications')) {
+                    die('Go get a life script kiddies');
+                }*/
+                $sql = "select * from cj_affiliated_organizations WHERE cj_affiliated_organizations.id = ".intval($_GET['id']);
+                //self::log($sql);
+                global $wpdb;
+                $affiliatedOrganization = $wpdb->get_results($sql, 'ARRAY_A');
+                //self::log($project);
+                if (!empty($affiliatedOrganization)) {
+                    $affiliatedOrganization = $affiliatedOrganization[0];
+                    self::affiliatedOrganizationCreatePage($affiliatedOrganization);
+                    exit;
+                }
+            }
+            include_once __DIR__.'/pages/affiliated-organizations.php';
+        }
+        public static function affiliatedOrganizationCreatePage($affiliatedOrganization) {
+            global $wpdb;
+            if (!empty($_POST)) {
+                $filename = '';
+                if (!empty($_FILES['photo']['name'])) {
+                    $fi = pathinfo($_FILES['photo']['name']);
+                    $filename = md5($fi['basename'].time()).'.'.$fi['extension'];
+                    $uploadfile = __DIR__.self::$uploaddir.$filename;
+                    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) { }
+                }
+
+                if (empty($_POST['id'])) {
+                  $sql = "
+                    INSERT INTO `cj_affiliated_organizations` (`url`, `photo`) VALUES ('".$_POST['url']."', '".(!empty($filename)?$filename:'')."');
+                  ";
+                   $wpdb->query($sql);
+                } else {
+                    $data = [
+                        'url'        => $_POST['url'],
+                    ];
+                    if (!empty($filename)) {
+                        $data['photo'] = $filename;
+                    }
+
+                    $wpdb->update(
+                        'cj_affiliated_organizations',
+                        $data,
+                        array(
+                            'id' => $_POST['id'],
+                        )
+                    );
+                }
+                $redirect = '/wp-admin/admin.php?page=condonjohnson-affiliated-organizations';
+            }
+            include_once __DIR__.'/pages/affiliated-organization-create.php';
+        }
+
+        // social media
+        public static function socialMediaPage() {
+            if (isset($_GET['action']) && $_GET['action'] == 'edit' && !empty($_GET['id'])) {
+                $nonce = esc_attr($_GET['_wpnonce']);
+                /* if (!wp_verify_nonce($nonce, 'cj_publications')) {
+                     die('Go get a life script kiddies');
+                 }*/
+                $sql = "select * from cj_social_media WHERE cj_social_media.id = ".intval($_GET['id']);
+                //self::log($sql);
+                global $wpdb;
+                $socialMedia = $wpdb->get_results($sql, 'ARRAY_A');
+                //self::log($project);
+                if (!empty($socialMedia)) {
+                    $socialMedia = $socialMedia[0];
+                    self::socialMediaCreatePage($socialMedia);
+                    exit;
+                }
+            }
+            include_once __DIR__.'/pages/social-medias.php';
+        }
+        public static function socialMediaCreatePage($socialMedia) {
+            global $wpdb;
+            if (!empty($_POST)) {
+                $filename = '';
+                if (!empty($_FILES['photo']['name'])) {
+                    $fi = pathinfo($_FILES['photo']['name']);
+                    $filename = md5($fi['basename'].time()).'.'.$fi['extension'];
+                    $uploadfile = __DIR__.self::$uploaddir.$filename;
+                    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) { }
+                }
+
+                if (empty($_POST['id'])) {
+                    $sql = "
+                    INSERT INTO `cj_social_media` (`url`, `photo`) VALUES ('".$_POST['url']."', '".(!empty($filename)?$filename:'')."');
+                  ";
+                    $wpdb->query($sql);
+                } else {
+                    $data = [
+                        'url'        => $_POST['url'],
+                    ];
+                    if (!empty($filename)) {
+                        $data['photo'] = $filename;
+                    }
+
+                    $wpdb->update(
+                        'cj_social_media',
+                        $data,
+                        array(
+                            'id' => $_POST['id'],
+                        )
+                    );
+                }
+                $redirect = '/wp-admin/admin.php?page=condonjohnson-social-medias';
+            }
+            include_once __DIR__.'/pages/social-media-create.php';
+        }
 
 
 
@@ -858,8 +997,6 @@ if (!class_exists('CondonJohnson')) {
            self::init_hooks();
             //self::log('try init MonthlyGift plugin');
         }
-
-
         public static function ajax() {
             global $wpdb; // this is how you get access to the database
             // self::log($wpdb);
@@ -870,39 +1007,6 @@ if (!class_exists('CondonJohnson')) {
                 'ok' => false,
             ];
             switch ($params['ajaxAction']) {
-                case 'getAllProjects': {
-                 // self::log('try getProjects ... ');
-                  $type = intval($params['type']);
-                  $city = $params['city'];
-                  $where = '';
-                  if ($type !== -1) {
-                    if (!empty($where)) {
-                      $where .= ' and ';
-                    }
-                    $where .= " cj_projects.type = ".$type;
-                  }
-
-                  if (!empty($city)) {
-                      if (!empty($where)) {
-                        $where .= ' and ';
-                      }
-                      $where .= " cj_projects.city = '".$city."'";
-                  }
-                  if (!empty($where)) {
-                    $where = ' where '.$where;
-                  }
-                  $sql = 
-                    "select cj_projects.*, cj_photos_project.photo
-                      from cj_projects
-                      LEFT JOIN cj_photos_project on cj_projects.id=cj_photos_project.project_id and cj_photos_project.photo like '%.jpg'
-                      ".$where."
-                      group by cj_projects.id";
-                  //self::log($sql);
-                  $result['projects'] = $wpdb->get_results($sql, 'ARRAY_A');
-
-                  $result['ok'] = true;
-                  break;
-                }
                 case 'getProjects': {
                  // self::log('try getProjects ... ');
                   $pageSize = 6;
@@ -912,32 +1016,35 @@ if (!class_exists('CondonJohnson')) {
 
                   $where = '';
                   if ($type !== -1) {
-                    $where .= " and cj_projects.type = ".$type;
+                    if (!empty($where)) {
+                      $where .= ' and ';
+                    }
+                    $where .= " type = ".$type;
                   }
 
                   if (!empty($city)) {
-                      $where .= " and cj_projects.city = '".$city."'";
+                      if (!empty($where)) {
+                        $where .= ' and ';
+                      }
+                      $where .= " city = '".$city."'";
                   }
 
+                  if (!empty($where)) {
+                    $where = ' where '.$where;
+                  }
                   $sql = "
-                     select cj_projects.*, cj_photos_project.photo
-                       from cj_projects, cj_photos_project
-                      where 
-                            cj_photos_project.project_id=cj_projects.id
-                        and cj_photos_project.photo like '%.jpg'
-                      ".$where."
-                      group by cj_projects.id
-                      order by cj_projects.created desc
-                      limit ".($pageSize*($page-1)).", ".$pageSize;
+                     select * from cj_projects
+                     ".$where." order by created desc
+                     limit ".($pageSize*($page-1)).", ".$pageSize;
                  // self::log($sql);
                   $projects = $wpdb->get_results($sql,
                   'ARRAY_A');
 
                   $result['pageSize'] = $pageSize;
                   $result['page'] = $page;
-                  /*foreach ($projects as &$project) {
+                  foreach ($projects as &$project) {
                     $project['photos'] = $wpdb->get_results("select * from cj_photos_project where cj_photos_project.project_id = ".$project['id'], 'ARRAY_A');
-                  }*/
+                  }
 
                   $result['projects'] = $projects;
 
@@ -953,10 +1060,12 @@ if (!class_exists('CondonJohnson')) {
                   if (!empty($where)) {
                     $where = ' where '.$where;
                   }
-                  $cities = $wpdb->get_results("
+
+                  $cities = [];
+                  /*$cities = $wpdb->get_results("
                      select DISTINCT city from cj_projects ".$where." order by city",
                       'ARRAY_A');
-                  $result['cities'] = $cities;
+                  $result['cities'] = $cities;*/
 
                   $result['ok'] = true;
                   break;
@@ -985,9 +1094,11 @@ if (!class_exists('CondonJohnson')) {
                   );
 
                   wp_mail(
-                      $params['email'], $params['subject'],
+                      'kcondon@condon-johnson.com',
+                      $params['subject'],
                       'Name: '.$params['name']."\n".
                       'Phone: '.$params['phone']."\n".
+                      'Email: '.$params['email']."\n".
                       $params['message']
                   );
                   $result['ok'] = true;
@@ -1002,10 +1113,6 @@ if (!class_exists('CondonJohnson')) {
             echo json_encode($result);
             wp_die();
         }
-
-
-
-
     }
 }
 

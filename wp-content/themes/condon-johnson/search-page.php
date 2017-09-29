@@ -6,6 +6,7 @@
 ?>
 
 <?php
+
     $s = $_COOKIE["s"];
     $total_results = 0;
     $pageSize = 5;
@@ -120,8 +121,8 @@
        $('body').addClass('search page-template-search');
      $('#searchform').submit(function (e) {
          e.preventDefault();
-         //console.log($('#searchform').find('input[name="s"]').val());
-         $.cookie('s', $('#searchform').find('input[name="s"]').val(), { path: '/search/' });
+         //console.log($('input[name="s"]').val());
+         $.cookie('s', $('#searchform').find('input[name="s"]').val());
          location.reload();
      });
    });

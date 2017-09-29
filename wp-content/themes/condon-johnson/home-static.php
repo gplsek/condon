@@ -45,7 +45,7 @@
                         <h5>Specializing in innovative and cost-effective solutions</h5>
                         <div class="actions">
                             <a href="/careers/" class="button button-white animate-slow">Careers</a>
-                            <a href="/projects/" class="button button-white animate-slow">Our Projects</a>
+                            <a href="/services/" class="button button-white animate-slow">Our Services</a>
                         </div>
                     </div>
                 </div>
@@ -56,6 +56,7 @@
             <div class="arrow arrow-next animate-slow" id="next-slide"></div>
         </div>
     </div>
+
 
 
 
@@ -73,26 +74,34 @@ endwhile;
             <h2>Services</h2>
             <hr />
             <div class="row-fluid">
+                <a href="/deep-foundation/">
                 <div class="service service-1 col-md-3 col-xs-3" type="9">
                     <div class="content animate-slow">
                         <div class="title">DEEP FOUNDATIONS</div>
                     </div>
                 </div>
+                </a>
+                <a href="/earth-retention/">
                 <div class="service service-2 col-md-3 col-xs-3" type="10">
                     <div class="content animate-slow">
                         <div class="title">EARTH RETENTION</div>
                     </div>
                 </div>
+                </a>
+                <a href="/ground-improvement/">
                 <div class="service service-3 col-md-3 col-xs-3" type="11">
                     <div class="content animate-slow">
                         <div class="title">GROUND IMPROVEMENT</div>
                     </div>
                 </div>
+                </a>
+                <a href="/dewatering/">
                 <div class="service service-4 col-md-3 col-xs-3" type="12">
                     <div class="content animate-slow">
                         <div class="title">DEWATERING</div>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
     </div>
@@ -116,7 +125,19 @@ endwhile;
             <hr />
 
             <div class="row">
-                <div class="col-md-4 col-sm-4 col-xs-6">
+                <?php
+                  $affiliatedOrganizations = $wpdb->get_results("select * from cj_affiliated_organizations where cj_affiliated_organizations.photo <> ''", 'ARRAY_A');
+                  foreach ($affiliatedOrganizations as $affiliatedOrganization) {
+                ?>
+                      <div class="col-md-4 col-sm-4 col-xs-6">
+                          <div class="organization">
+                              <a href="<?= $affiliatedOrganization['url'] ?>"><img src="/wp-content/uploads/<?= $affiliatedOrganization['photo'] ?>" alt="organization" /></a>
+                          </div>
+                      </div>
+                <?php
+                  }
+                ?>
+                <!--<div class="col-md-4 col-sm-4 col-xs-6">
                     <div class="organization">
                         <a href="http://www.dfi.org"><img src="/wp-content/themes/condon-johnson/images/affiliated-organizations/dfi-logo.svg" alt="organization" /></a>
                     </div>
@@ -150,7 +171,7 @@ endwhile;
                     <div class="organization">
                         <a href="http://www.geoinstitute.org"><img src="/wp-content/themes/condon-johnson/images/affiliated-organizations/geoinstitute-logo.svg" alt="organization" /></a>
                     </div>
-                </div>
+                </div>-->
             </div>
 
         </div>

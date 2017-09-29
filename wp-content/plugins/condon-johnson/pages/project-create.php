@@ -44,8 +44,7 @@
                         <label for="photo">Photo</label>
                     </th>
                     <td>
-                        <?php 
-						foreach ($photos as $photo) {?>
+                        <?php foreach ($photos as $photo) {?>
                            <div style="display: inline-block;">
                                <a class="photo-delete" style="position: absolute; padding: 5px; background-color: white; opacity: 0.7;" href="#" photoId="<?= $photo['id'] ?>">Delete</a>
                                <img src="/wp-content/uploads/<?= $photo['photo'] ?>" style="height: 100px; margin-right: 5px;"/>
@@ -53,7 +52,7 @@
                         <?php } ?>
                         <br/>
                         <!--<img src="/wp-content/uploads/<?/*= !empty($project)?$project['photo']:'' */?>" style="height: 100px;"/><br/>-->
-                        <input style="width: 100%;" type="file" name="photo" multiple="multiple">
+                        <input style="width: 100%;" type="file" name="photo[]" multiple="multiple" value="<?= ((empty($project))?'':$project['photo']) ?>">
                         <!--<input name="photo" type="text" value="<?/*= ((empty($project))?'':$project['photo']) */?>" maxlength="225" size="30" required />
                         <input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="Upload Image">-->
                     </td>

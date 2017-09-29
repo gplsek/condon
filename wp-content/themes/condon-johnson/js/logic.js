@@ -3,33 +3,53 @@ console.log('loaded logic');
 var markers = [];
 var iconSvg = {
     path: 'M8.2,1.7c-3.7,0-6.7,3-6.7,6.7 c0,1.2,0.3,2.3,0.9,3.3l5.8,8.6l5.8-8.6c0.6-1,0.9-2.1,0.9-3.3C14.9,4.7,11.9,1.7,8.2,1.7z M8.2,10.6C7,10.6,6,9.6,6,8.4 c0-1.2,1-2.2,2.2-2.2c1.2,0,2.2,1,2.2,2.2C10.4,9.6,9.4,10.6,8.2,10.6z',
-    strokeColor: '#F05023',
+    strokeColor: '#b73e1c',// '#F05023',
     strokeOpacity: 1,
     strokeWeight: 1.5,
     fillOpacity: 0,
     rotation: 0,
     scale: 1.0
 };
-var addMapMarkers = function(type, city) {
+var getProjects = function (page, type, city) {
 
     if (typeof(window.infowindow) == 'undefined' && typeof(window.projectsMap) !== 'undefined') {
         window.infowindow = new google.maps.InfoWindow({
             content: 'test'
         });
     }
+
     jQuery.post('/wp-admin/admin-ajax.php', {
         action      : 'condonjohnson_ajax',
-        ajaxAction  : 'getAllProjects',
+        ajaxAction  : 'getProjects',
+        page        : page,
         type        : type,
         city        : city
     }, function (res) {
+        console.log(res);
 
+        //if (res.projects.length%parseInt(res.pageSize) == 1) {
+        if (res.projects.length < parseInt(res.pageSize)) {
+            jQuery('.load-more-projects').hide();
+        } else {
+            jQuery('.load-more-projects').show();
+        }
+        if (page == 1) {
+            jQuery('.projects-list').html('');
+        }
         jQuery(markers).each(function (index, marker) {
             marker.setMap(null);
         });
         markers = [];
 
+        // window.projectsMap.setZoom(4);
+        // window.projectsMap.setCenter(new google.maps.LatLng(46.986399, -142.856798));
+
         jQuery(res.projects).each(function (index, project) {
+            var photo = '/wp-content/themes/condon-johnson/images/no-image-available.png';
+            if (project.photos.length > 0) {
+                photo = '/wp-content/uploads/' + project.photos[0].photo;
+            }
+
 
             if (typeof(window.projectsMap) !== 'undefined') {
                 var position = jQuery.parseJSON(project.position.replace(/[\s\\]+/g,'').replace(/[']+/g,'"'));
@@ -43,15 +63,26 @@ var addMapMarkers = function(type, city) {
                 projectsMarker.addListener('click', function() {
                     window.infowindow.setContent('<div style="width: 400px;">' +
                         '<h4 class="firstHeading">' + project.name + '</h4>' +
-                        (project.photo ? '<img style="width: 150px; float: left; margin-right: 10px;" src="/wp-content/uploads/' + project.photo + '"/>':'') +
+                        '<img style="width: 150px; float: left; margin-right: 10px;" src="' + photo + '"/>' +
                         '<p>' + project.description + '</p>' +
                         '</div>');
-
                     window.infowindow.open(window.projectsMap, projectsMarker);
                 });
                 markers.push(projectsMarker);
             }
 
+
+            jQuery('.projects-list').append('' +
+                '<a href="/projects-list/#project_' +  project.id + '">' +
+                '<div class="col-md-4 col-sm-4 col-xs-6">' +
+                '<div class="project project-1" style="height: 271px; background-image: url(' + photo + ');">' +
+                '<div class="content animate-slow" style="height: 271px;">' +
+                '<div class="title">' + project.name + '</div>' +
+              //  '<p>' + project.description + '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</a>');
         });
 
         if (typeof(window.projectsMap) !== 'undefined') {
@@ -62,52 +93,6 @@ var addMapMarkers = function(type, city) {
             window.projectsMap.fitBounds(bounds);
         }
 
-    });
-}
-var getProjects = function (page, type, city) {
-
-    /*if (typeof(window.infowindow) == 'undefined' && typeof(window.projectsMap) !== 'undefined') {
-        window.infowindow = new google.maps.InfoWindow({
-            content: 'test'
-        });
-    }*/
-
-    jQuery.post('/wp-admin/admin-ajax.php', {
-        action      : 'condonjohnson_ajax',
-        ajaxAction  : 'getProjects',
-        page        : page,
-        type        : type,
-        city        : city
-    }, function (res) {
-
-        //if (res.projects.length%parseInt(res.pageSize) == 1) {
-        if (res.projects.length < parseInt(res.pageSize)) {
-            jQuery('.load-more-projects').hide();
-        } else {
-            jQuery('.load-more-projects').show();
-        }
-        if (page == 1) {
-            jQuery('.projects-list').html('');
-        }
-
-        // window.projectsMap.setZoom(4);
-        // window.projectsMap.setCenter(new google.maps.LatLng(46.986399, -142.856798));
-
-        jQuery(res.projects).each(function (index, project) {
-            
-            jQuery('.projects-list').append('' +
-                '<a href="/projects-list/#project_' +  project.id + '">' +
-                '<div class="col-md-4 col-sm-4 col-xs-6">' +
-                '<div class="project project-1" style="height: 271px; background-image: url(/wp-content/uploads/' + project.photo + ');">' +
-                '<div class="content animate-slow" style="height: 271px;">' +
-                '<div class="title">' + project.name + '</div>' +
-              //  '<p>' + project.description + '</p>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</a>');
-			
-        });
 
         if (type == -1) {
             jQuery('.filters-line').html('<b>All</b>');
@@ -131,7 +116,6 @@ var getProjects = function (page, type, city) {
             currentPage = 1;
             currentType = jQuery(this).attr('type');
             currentCity = '';
-            addMapMarkers(currentType, currentCity);
             getProjects(currentPage, currentType, currentCity);
         });
 
@@ -148,9 +132,10 @@ var getProjects = function (page, type, city) {
             e.preventDefault();
             currentPage = 1;
             currentCity = jQuery(this).attr('city');
-            addMapMarkers(currentType, currentCity);
             getProjects(currentPage, currentType, currentCity);
         });
+
+        // $('.map-projects .filters-wrapper').css('left', $(window).width() - $('.map-projects .filters-wrapper').width() - 150);
     });
 }
 var currentPage = 1;
