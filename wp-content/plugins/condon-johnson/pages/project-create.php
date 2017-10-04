@@ -68,6 +68,14 @@
                         <div id="map" style="width: 100%; height: 400px; border: rgba(118, 130, 34, 0.48) solid 1px;"></div>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="name">Order</label>
+                    </th>
+                    <td>
+                        <input style="width: 100%;" name="feature" type="number" min="0" step="1" value="<?= ((empty($project))?'':$project['feature']) ?>" maxlength="225" size="30"/>
+                    </td>
+                </tr>
             </table>
         </div>
         <!--<input type="submit" style="display: none;">-->

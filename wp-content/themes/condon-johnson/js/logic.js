@@ -27,6 +27,8 @@ var getProjects = function (page, type, city) {
     }, function (res) {
         console.log(res);
 
+
+
         //if (res.projects.length%parseInt(res.pageSize) == 1) {
         if (res.projects.length < parseInt(res.pageSize)) {
             jQuery('.load-more-projects').hide();
@@ -35,11 +37,15 @@ var getProjects = function (page, type, city) {
         }
         if (page == 1) {
             jQuery('.projects-list').html('');
+
+            jQuery(markers).each(function (index, marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
         }
-        jQuery(markers).each(function (index, marker) {
-            marker.setMap(null);
-        });
-        markers = [];
+
+        /**/
 
         // window.projectsMap.setZoom(4);
         // window.projectsMap.setCenter(new google.maps.LatLng(46.986399, -142.856798));
@@ -84,8 +90,10 @@ var getProjects = function (page, type, city) {
                 '</div>' +
                 '</a>');
         });
-
+        //console.log(window.projectsMap);
+        //console.log(markers.length);
         if (typeof(window.projectsMap) !== 'undefined') {
+            // console.log('Extend map view > ' + markers.length);
             var bounds = new google.maps.LatLngBounds();
             for (var i = 0; i < markers.length; i++) {
               bounds.extend(markers[i].getPosition());
@@ -95,10 +103,9 @@ var getProjects = function (page, type, city) {
 
 
         if (type == -1) {
-            jQuery('.filters-line').html('<b>All</b>');
-
+          jQuery('.filters-line').html('<b>All</b>');
         } else {
-            jQuery('.filters-line').html('<a type="-1">All</a>');
+          jQuery('.filters-line').html('<a type="-1">All</a>');
         }
         jQuery('.filters-list').html('');
         jQuery(res.types).each(function (index, t) {
@@ -122,9 +129,9 @@ var getProjects = function (page, type, city) {
         jQuery('.cities-list').html('');
         jQuery(res.cities).each(function (index, c) {
             if (c.city == city) {
-                jQuery('.cities-list').append('<li><b>' + c.city + '</b></li>');
+              jQuery('.cities-list').append('<li><b>' + c.city + '</b></li>');
             } else {
-                jQuery('.cities-list').append('<li><a city="' + c.city + '">' + c.city + '</a></li>');
+              jQuery('.cities-list').append('<li><a city="' + c.city + '">' + c.city + '</a></li>');
             }
         });
 
