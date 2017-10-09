@@ -297,6 +297,7 @@ if (!class_exists('CondonJohnson')) {
             adress varchar(255) NOT NULL,
             position varchar(255),
             created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            feature int,
 		    PRIMARY KEY  (id)
 	      ) $charset_collate;";
           // self::log($sql);
@@ -583,6 +584,7 @@ if (!class_exists('CondonJohnson')) {
                      'adress'      => !empty($_POST['adress'])?$_POST['adress']:'',
                      'position'    => str_replace('"', "'", $_POST['position']),
                      'city'        => !empty($_POST['city'])?$_POST['city']:'',
+                     'feature'     => !empty($_POST['feature'])?$_POST['feature']:null,
                    )
                 );
 
@@ -608,6 +610,7 @@ if (!class_exists('CondonJohnson')) {
                       'adress'      => $_POST['adress'],
                       'position'    => str_replace('"', "'", $_POST['position']),
                       'city'        => $_POST['city'],
+                      'feature'     => $_POST['feature'],
                   ];
 
                   if (!empty($filename)) {
@@ -1034,7 +1037,7 @@ if (!class_exists('CondonJohnson')) {
                   }
                   $sql = "
                      select * from cj_projects
-                     ".$where." order by created desc
+                     ".$where." order by feature desc
                      limit ".($pageSize*($page-1)).", ".$pageSize;
                  // self::log($sql);
                   $projects = $wpdb->get_results($sql,
