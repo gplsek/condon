@@ -19,7 +19,7 @@ endwhile;
             </div>
 
             <?php
-              $team = $wpdb->get_results("select * from cj_team", 'ARRAY_A');
+              $team = $wpdb->get_results("select * from cj_team order by cj_team.feature desc", 'ARRAY_A');
             ?>
 
 

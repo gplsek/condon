@@ -39,6 +39,14 @@
                         <textarea style="width: 100%;" rows="3" cols="45" name="description"><?= ((empty($member))?'':$member['description']) ?></textarea>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="name">Order</label>
+                    </th>
+                    <td>
+                        <input style="width: 100%;" name="feature" type="number" min="0" step="1" value="<?= ((empty($member))?'':$member['feature']) ?>" maxlength="225" size="30"/>
+                    </td>
+                </tr>
             </table>
         </div>
         <?php

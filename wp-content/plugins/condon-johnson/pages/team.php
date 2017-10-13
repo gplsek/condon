@@ -12,20 +12,26 @@
         'name'  => 'description_prev',
         'label' => 'Description',
         'no_sort' => true
-    ]
+    ],
+      [
+          'name'  => 'feature',
+          'label' => 'Order',
+      ]
     //'created'
     /*[
       'name'  => 'name',
       'label' => 'Name',
       'no_sort' => true
     ]*/
-  ], [
+  ],
+   [
      'select_sql' => "
        select
          *,
          CONCAT('<img src=\"', IF(cj_team.photo <> '', CONCAT('/wp-content/uploads/', cj_team.photo), '/wp-content/themes/condon-johnson/images/no-image-available.png'), '\" style=\"width: 150px;\">') as photo_prev,
          CONCAT(SUBSTRING(cj_team.description, 1, 200), ' ... ') as description_prev
        from cj_team
+       order by cj_team.feature desc
     ",
     'edit'       => true
   ]);

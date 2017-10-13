@@ -344,6 +344,7 @@ if (!class_exists('CondonJohnson')) {
 		       photo       varchar(255) NOT NULL,
                description text,
 		       created     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		       feature int,
 		       PRIMARY KEY  (id)
 	      ) $charset_collate;
           ";
@@ -590,7 +591,7 @@ if (!class_exists('CondonJohnson')) {
 
                 $project_id = $wpdb->insert_id;
 
-                self::log($project_id);
+               // self::log($project_id);
                 for ($j = 0; $j < count($filenames); $j++) {
                       $wpdb->insert(
                           'cj_photos_project',
@@ -737,6 +738,7 @@ if (!class_exists('CondonJohnson')) {
                             'position'    => $_POST['position'],
                             'description' => $_POST['description'],
                             'photo'       => !empty($filename)?$filename:'',
+                            'feature'     => !empty($_POST['feature'])?$_POST['feature']:null,
                         )
                     );
                     $member_id = $wpdb->insert_id;
@@ -745,6 +747,7 @@ if (!class_exists('CondonJohnson')) {
                         'name'        => $_POST['name'],
                         'position'    => $_POST['position'],
                         'description' => $_POST['description'],
+                        'feature'     => $_POST['feature'],
                     ];
                     if (!empty($filename)) {
                         $data['photo'] = $filename;
