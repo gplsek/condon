@@ -1142,14 +1142,14 @@ if (!class_exists('CondonJohnson')) {
                             )
                         );
 
-/*                        wp_mail(
+                       wp_mail(
                             'kcondon@condon-johnson.com',
                             $params['subject'],
                             'Name: '.$params['name']."\n".
                             'Phone: '.$params['phone']."\n".
                             'Email: '.$params['email']."\n".
                             $params['message']
-                        );*/
+                        );
 
                         $result['ok'] = true;
                     }
