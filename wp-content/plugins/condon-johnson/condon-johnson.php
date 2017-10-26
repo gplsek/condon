@@ -1003,6 +1003,41 @@ if (!class_exists('CondonJohnson')) {
            self::init_hooks();
             //self::log('try init MonthlyGift plugin');
         }
+
+        private static function postHttpUrl($url, $params = []) {
+            $result = null;
+
+
+           /* $options = array(
+                'http' => array(
+                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                    'method'  => 'POST',
+                    'content' => http_build_query($params)
+                )
+            );
+            $context  = stream_context_create($options);
+            $result = file_get_contents($url, false, $context);*/
+
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+            // curl_setopt($ch, CURLOPT_POSTFIELDS,  $params);
+
+
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            curl_close($ch);
+            //*/
+
+            return $result;
+        }
         public static function ajax() {
             global $wpdb; // this is how you get access to the database
             // self::log($wpdb);
@@ -1088,26 +1123,40 @@ if (!class_exists('CondonJohnson')) {
                   break;
                 }
                 case 'contact': {
-                  $wpdb->insert(
-                        'cj_contacts',
-                        array(
-                            'name'        => $params['name'],
-                            'phone'       => $params['phone'],
-                            'email'       => $params['email'],
-                            'subject'     => $params['subject'],
-                            'message'     => $params['message'],
-                        )
-                  );
+                  $result['ok'] = false;
+                  $check_result = self::postHttpUrl('https://www.google.com/recaptcha/api/siteverify', [
+                     'response'  => $params['response'],
+                     'secret'    => '6LdG9jUUAAAAADBMG7Wz5QBM8k9KNc5T8PIMeFOj',
+                  ]);
+                  if (!empty($check_result) && $check_result !== false) {
+                    $check_result = json_decode($check_result, true);
+                    if ($check_result['success']) {
+                        $wpdb->insert(
+                            'cj_contacts',
+                            array(
+                                'name'        => $params['name'],
+                                'phone'       => $params['phone'],
+                                'email'       => $params['email'],
+                                'subject'     => $params['subject'],
+                                'message'     => $params['message'],
+                            )
+                        );
 
-                  wp_mail(
-                      'kcondon@condon-johnson.com',
-                      $params['subject'],
-                      'Name: '.$params['name']."\n".
-                      'Phone: '.$params['phone']."\n".
-                      'Email: '.$params['email']."\n".
-                      $params['message']
-                  );
-                  $result['ok'] = true;
+/*                        wp_mail(
+                            'kcondon@condon-johnson.com',
+                            $params['subject'],
+                            'Name: '.$params['name']."\n".
+                            'Phone: '.$params['phone']."\n".
+                            'Email: '.$params['email']."\n".
+                            $params['message']
+                        );*/
+
+                        $result['ok'] = true;
+                    }
+                  }
+                  //$result['check_result'] = $check_result;
+                  //$result['params']       = $params;
+
                   break;
                 }
                 default: {

@@ -101,13 +101,15 @@ var getProjects = function (page, type, city) {
             window.projectsMap.fitBounds(bounds);
         }
 
-
+        jQuery('.filters-list').html('');
         if (type == -1) {
           jQuery('.filters-line').html('<b>All</b>');
+          jQuery('.filters-list').html('<li><b>All</b></li>');
         } else {
           jQuery('.filters-line').html('<a type="-1">All</a>');
+          jQuery('.filters-list').append('<li><a type="-1">All</a></li>');
         }
-        jQuery('.filters-list').html('');
+
         jQuery(res.types).each(function (index, t) {
             if (t.id == type) {
                 jQuery('.filters-line').append(' / <b>' + t.name + '</b>');

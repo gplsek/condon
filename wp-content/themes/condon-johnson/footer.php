@@ -6,7 +6,7 @@
                             <li><a href="/">HOME</a></li>
                             <li><a href="/about-us">ABOUT US</a></li>
                             <!--<li><a href="dewatering.html">DEWATERING</a></li>-->
-                            <li><a href="/services">SERVICES</a></li>
+                            <!--<li><a href="/services">SERVICES</a></li>-->
                             <li><a href="/projects">PROJECTS</a></li>
                             <li><a href="/publications">PUBLICATIONS</a></li>
                             <li><a href="/careers">CAREERS</a></li>
