@@ -60,6 +60,7 @@
             <div class="row">
                 <div class="col-md-12"><textarea name="message" id="" cols="30" rows="10" placeholder="MESSAGE" required></textarea></div>
             </div>
+            <div style="float: right;" class="g-recaptcha" data-sitekey="6LdG9jUUAAAAACWzrmmEYbm5qg8PdV-MnBicn0js"></div>
             <div class="row text-right">
                 <div class="col-md-12"><button type="submit" name="submit" class="button button-orange animate-slow">SUBMIT</button></div>
             </div>
@@ -83,13 +84,17 @@
                 phone       : jQuery('#contact-form input[name="phone"]').val(),
                 email       : jQuery('#contact-form input[name="email"]').val(),
                 subject     : jQuery('#contact-form input[name="subject"]').val(),
-                message     : jQuery('#contact-form textarea[name="message"]').val()
+                message     : jQuery('#contact-form textarea[name="message"]').val(),
+                response    : jQuery('[name="g-recaptcha-response"]').val()
             }, function (res) {
                 console.log(res);
                 if (res.ok) {
                   jQuery('#contact-form').find("input[type=text], textarea").val("");
+                  jQuery('.contact-form').hide();
                   alert('Message successfully sent');
                 //  location.reload();
+                } else {
+                  alert('Error. Please check captcha again.');
                 }
 
             });
@@ -103,7 +108,8 @@
 </script>
 
 
-<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+<!--<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>-->
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyCyVCmT6Q7lzrDbXjhWVi65ZSx5dSqK8_w&sensor=true" type="text/javascript"></script>
 <script src="<?php bloginfo('template_directory'); ?>/js/script.js"></script>
 <?php get_footer(); ?>
 

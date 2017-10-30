@@ -45,7 +45,7 @@
                         <h5>Specializing in innovative and cost-effective solutions</h5>
                         <div class="actions">
                             <a href="/careers/" class="button button-white animate-slow">Careers</a>
-                            <a href="/services/" class="button button-white animate-slow">Our Services</a>
+                            <a href="/projects/" class="button button-white animate-slow">Our projects</a>
                         </div>
                     </div>
                 </div>

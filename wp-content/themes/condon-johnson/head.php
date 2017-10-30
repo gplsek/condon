@@ -37,7 +37,7 @@
 
 
         <?php wp_enqueue_media(); ?>
-
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body <?php body_class(); ?> >
     <div class="wrapper">
